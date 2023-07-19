@@ -47,7 +47,7 @@ public class JpaPetRepositoryImpl implements PetRepository {
     }
 
     @Override
-    public Pet findById(int id) {
+    public Pet findById(String id) {
         return this.em.find(Pet.class, id);
     }
 

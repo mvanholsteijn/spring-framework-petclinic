@@ -46,7 +46,7 @@ public interface PetRepository {
      * @return the <code>Pet</code> if found
      * @throws org.springframework.dao.DataRetrievalFailureException if not found
      */
-    Pet findById(int id);
+    Pet findById(String id);
 
     /**
      * Save a <code>Pet</code> to the data store, either inserting or updating it.

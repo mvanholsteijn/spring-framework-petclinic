@@ -26,23 +26,23 @@ import java.sql.SQLException;
  * {@link OneToManyResultSetExtractor} of Spring Data Core JDBC Extensions.
  */
 public class JdbcPetVisitExtractor extends
-    OneToManyResultSetExtractor<JdbcPet, Visit, Integer> {
+    OneToManyResultSetExtractor<JdbcPet, Visit, String> {
 
     public JdbcPetVisitExtractor() {
         super(new JdbcPetRowMapper(), new JdbcVisitRowMapper());
     }
 
     @Override
-    protected Integer mapPrimaryKey(ResultSet rs) throws SQLException {
-        return rs.getInt("pets.id");
+    protected String mapPrimaryKey(ResultSet rs) throws SQLException {
+        return rs.getString("pets.id");
     }
 
     @Override
-    protected Integer mapForeignKey(ResultSet rs) throws SQLException {
+    protected String mapForeignKey(ResultSet rs) throws SQLException {
         if (rs.getObject("visits.pet_id") == null) {
             return null;
         } else {
-            return rs.getInt("visits.pet_id");
+            return rs.getString("visits.pet_id");
         }
     }
 

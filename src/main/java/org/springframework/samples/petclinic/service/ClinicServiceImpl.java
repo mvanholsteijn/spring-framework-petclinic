@@ -61,7 +61,7 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     @Transactional(readOnly = true)
-    public Owner findOwnerById(int id) {
+    public Owner findOwnerById(String id) {
         return ownerRepository.findById(id);
     }
 
@@ -87,7 +87,7 @@ public class ClinicServiceImpl implements ClinicService {
 
     @Override
     @Transactional(readOnly = true)
-    public Pet findPetById(int id) {
+    public Pet findPetById(String id) {
         return petRepository.findById(id);
     }
 
@@ -105,7 +105,7 @@ public class ClinicServiceImpl implements ClinicService {
     }
 
 	@Override
-	public Collection<Visit> findVisitsByPetId(int petId) {
+	public Collection<Visit> findVisitsByPetId(String petId) {
 		return visitRepository.findByPetId(petId);
 	}
 

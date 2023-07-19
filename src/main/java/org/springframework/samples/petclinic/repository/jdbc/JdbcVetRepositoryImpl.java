@@ -69,16 +69,16 @@ public class JdbcVetRepositoryImpl implements VetRepository {
 
         // Build each vet's list of specialties.
         for (Vet vet : vets) {
-            final List<Integer> vetSpecialtiesIds = this.jdbcTemplate.query(
+            final List<String> vetSpecialtiesIds = this.jdbcTemplate.query(
                 "SELECT specialty_id FROM vet_specialties WHERE vet_id=?",
-                new BeanPropertyRowMapper<Integer>() {
+                new BeanPropertyRowMapper<String>() {
                     @Override
-                    public Integer mapRow(ResultSet rs, int row) throws SQLException {
-                        return rs.getInt(1);
+                    public String mapRow(ResultSet rs, int row) throws SQLException {
+                        return rs.getString(1);
                     }
                 },
                 vet.getId());
-            for (int specialtyId : vetSpecialtiesIds) {
+            for (String specialtyId : vetSpecialtiesIds) {
                 Specialty specialty = EntityUtils.getById(specialties, Specialty.class, specialtyId);
                 vet.addSpecialty(specialty);
             }

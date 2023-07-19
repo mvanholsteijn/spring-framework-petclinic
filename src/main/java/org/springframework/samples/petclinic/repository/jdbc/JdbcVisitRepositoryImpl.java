@@ -15,10 +15,13 @@
  */
 package org.springframework.samples.petclinic.repository.jdbc;
 
+import org.hibernate.id.factory.internal.UUIDGenerationTypeStrategy;
+import org.hibernate.id.uuid.UuidGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Repository;
@@ -28,7 +31,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.UUID;
 /**
  * A simple JDBC-based implementation of the {@link VisitRepository} interface.
  *
@@ -52,17 +55,15 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
         this.insertVisit = new SimpleJdbcInsert(dataSource)
-            .withTableName("visits")
-            .usingGeneratedKeyColumns("id");
+            .withTableName("visits");
     }
 
 
     @Override
     public void save(Visit visit) {
         if (visit.isNew()) {
-            Number newKey = this.insertVisit.executeAndReturnKey(
-                createVisitParameterSource(visit));
-            visit.setId(newKey.intValue());
+            visit.setId(UUID.randomUUID().toString());
+            this.insertVisit.execute(createVisitParameterSource(visit));
         } else {
             throw new UnsupportedOperationException("Visit update not supported");
         }
@@ -81,7 +82,7 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
     }
 
     @Override
-    public List<Visit> findByPetId(Integer petId) {
+    public List<Visit> findByPetId(String petId) {
         Map<String, Object> params = new HashMap<>();
         params.put("id", petId);
         JdbcPet pet = this.jdbcTemplate.queryForObject(

@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.repository.jdbc;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
@@ -58,8 +59,7 @@ public class JdbcPetRepositoryImpl implements PetRepository {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
         this.insertPet = new SimpleJdbcInsert(dataSource)
-            .withTableName("pets")
-            .usingGeneratedKeyColumns("id");
+            .withTableName("pets");
 
         this.ownerRepository = ownerRepository;
     }
@@ -74,12 +74,12 @@ public class JdbcPetRepositoryImpl implements PetRepository {
     }
 
     @Override
-    public Pet findById(int id) {
-        Integer ownerId;
+    public Pet findById(String id) {
+        String ownerId;
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("id", id);
-            ownerId = this.namedParameterJdbcTemplate.queryForObject("SELECT owner_id FROM pets WHERE id=:id", params, Integer.class);
+            ownerId = this.namedParameterJdbcTemplate.queryForObject("SELECT owner_id FROM pets WHERE id=:id", params, String.class);
         } catch (EmptyResultDataAccessException ex) {
             throw new ObjectRetrievalFailureException(Pet.class, id);
         }
@@ -90,9 +90,8 @@ public class JdbcPetRepositoryImpl implements PetRepository {
     @Override
     public void save(Pet pet) {
         if (pet.isNew()) {
-            Number newKey = this.insertPet.executeAndReturnKey(
-                createPetParameterSource(pet));
-            pet.setId(newKey.intValue());
+            pet.setId(UUID.randomUUID().toString());
+            this.insertPet.execute(createPetParameterSource(pet));
         } else {
             this.namedParameterJdbcTemplate.update(
                 "UPDATE pets SET name=:name, birth_date=:birth_date, type_id=:type_id, " +

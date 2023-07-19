@@ -29,7 +29,7 @@ import org.springframework.samples.petclinic.repository.OwnerRepository;
  * @author Michael Isvy
  * @since 15.1.2013
  */
-public interface SpringDataOwnerRepository extends OwnerRepository, Repository<Owner, Integer> {
+public interface SpringDataOwnerRepository extends OwnerRepository, Repository<Owner, String> {
 
     @Override
     @Query("SELECT DISTINCT owner FROM Owner owner left join fetch owner.pets WHERE owner.lastName LIKE :lastName%")
@@ -37,5 +37,5 @@ public interface SpringDataOwnerRepository extends OwnerRepository, Repository<O
 
     @Override
     @Query("SELECT owner FROM Owner owner left join fetch owner.pets WHERE owner.id =:id")
-    public Owner findById(@Param("id") int id);
+    public Owner findById(@Param("id") String id);
 }

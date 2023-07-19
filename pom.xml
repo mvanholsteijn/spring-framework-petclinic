@@ -14,7 +14,7 @@
     <properties>
 
         <!-- Generic properties -->
-        <java.version>17</java.version>
+        <java.version>20</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -37,11 +37,11 @@
         <jakarta-activation.version>2.0.1</jakarta-activation.version>
         <servlet-api.version>6.0.0</servlet-api.version>
         <jstl-api.version>2.0.0</jstl-api.version>
-        <jpa-api.version>3.0.0</jpa-api.version>
+        <jpa-api.version>3.1.0</jpa-api.version>
 
         <!-- Persistence -->
-        <spring-data.version>2022.0.0</spring-data.version>
-        <hibernate.version>6.1.4.Final</hibernate.version>
+        <spring-data.version>2023.0.2</spring-data.version>
+        <hibernate.version>6.2.6.Final</hibernate.version>
         <hibernate-validator.version>7.0.5.Final</hibernate-validator.version>
         <hsqldb.version>2.7.1</hsqldb.version>
         <h2database.version>2.2.220</h2database.version>
@@ -67,14 +67,14 @@
         <aspectj.version>1.9.9.1</aspectj.version>
 
         <!-- Maven plugins -->
-        <jetty-maven-plugin.version>11.0.12</jetty-maven-plugin.version>
+        <jetty-maven-plugin.version>11.0.15</jetty-maven-plugin.version>
         <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
         <maven-compiler-plugin.version>3.9.0</maven-compiler-plugin.version>
         <maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.3.1</maven-war-plugin.version>
-        <jacoco-maven-plugin>0.8.7</jacoco-maven-plugin>
+        <jacoco-maven-plugin>0.8.10</jacoco-maven-plugin>
         <libsass-maven-plugin.version>0.2.26</libsass-maven-plugin.version>
 
         <!-- Docker image -->

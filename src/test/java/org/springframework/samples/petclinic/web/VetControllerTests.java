@@ -39,13 +39,13 @@ class VetControllerTests {
         Vet james = new Vet();
         james.setFirstName("James");
         james.setLastName("Carter");
-        james.setId(1);
+        james.setId("1");
         Vet helen = new Vet();
         helen.setFirstName("Helen");
         helen.setLastName("Leary");
-        helen.setId(2);
+        helen.setId("2");
         Specialty radiology = new Specialty();
-        radiology.setId(1);
+        radiology.setId("1");
         radiology.setName("radiology");
         helen.addSpecialty(radiology);
         given(this.clinicService.findVets()).willReturn(Lists.newArrayList(james, helen));

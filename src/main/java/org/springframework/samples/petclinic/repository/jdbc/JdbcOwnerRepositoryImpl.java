@@ -15,10 +15,7 @@
  */
 package org.springframework.samples.petclinic.repository.jdbc;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.sql.DataSource;
 
@@ -58,9 +55,7 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
     @Autowired
     public JdbcOwnerRepositoryImpl(DataSource dataSource) {
 
-        this.insertOwner = new SimpleJdbcInsert(dataSource)
-            .withTableName("owners")
-            .usingGeneratedKeyColumns("id");
+        this.insertOwner = new SimpleJdbcInsert(dataSource).withTableName("owners");
 
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
@@ -90,7 +85,7 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
      * for the corresponding owner, if not already loaded.
      */
     @Override
-    public Owner findById(int id) {
+    public Owner findById(String id) {
         Owner owner;
         try {
             Map<String, Object> params = new HashMap<>();
@@ -126,8 +121,8 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
     public void save(Owner owner) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(owner);
         if (owner.isNew()) {
-            Number newKey = this.insertOwner.executeAndReturnKey(parameterSource);
-            owner.setId(newKey.intValue());
+            owner.setId(UUID.randomUUID().toString());
+            this.insertOwner.execute(parameterSource);
         } else {
             this.namedParameterJdbcTemplate.update(
                 "UPDATE owners SET first_name=:firstName, last_name=:lastName, address=:address, " +
